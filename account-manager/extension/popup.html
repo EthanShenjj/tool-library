@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>保存到账号管理</title>
+  <link rel="stylesheet" href="popup.css">
+  <script src="platforms.js" defer></script>
+  <script src="shared.js" defer></script>
+  <script src="popup.js" defer></script>
+</head>
+<body>
+  <header>
+    <span class="mark" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="5"/><path d="m12 12 9 9m-4-4 3-3m-6 0 3-3"/></svg></span>
+    <div><h1>保存当前网页</h1><p>团队账号管理</p></div>
+    <button id="open-manager" class="text-button" type="button">打开工具台 ↗</button>
+  </header>
+
+  <div class="connection" aria-live="polite">
+    <span id="connection-dot" class="dot"></span><span id="connection-status">正在连接工具台…</span>
+    <button id="retry" type="button" class="text-button" hidden>重新连接</button>
+    <button id="login" type="button" class="text-button" hidden>前往登录</button>
+  </div>
+
+  <form id="account-form" novalidate>
+    <main id="editor">
+      <fieldset id="fields">
+        <label for="platform">平台名称 <span class="required">*</span></label>
+        <input id="platform" name="platform" required maxlength="100" placeholder="例如：GitHub、小红书" autocomplete="off" aria-describedby="platform-error">
+        <p id="platform-error" class="field-error" hidden></p>
+
+        <div class="label-row"><label for="websiteUrl">网站 URL <span class="required">*</span></label><button id="restore-url" class="text-button" type="button" hidden>恢复当前网页</button></div>
+        <input id="websiteUrl" name="websiteUrl" type="url" required maxlength="2000" placeholder="https://www.example.com" autocomplete="off" aria-describedby="url-hint websiteUrl-error">
+        <p id="url-hint" class="hint">完整网址已带入，账号和密码可留空。</p>
+        <p id="platform-recognition" class="recognition" aria-live="polite" hidden></p>
+        <p id="websiteUrl-error" class="field-error" hidden></p>
+
+        <div class="credentials">
+          <div><label for="username">账号 <span class="optional">选填</span></label><input id="username" name="username" maxlength="320" placeholder="用户名 / 邮箱 / 手机号" autocomplete="off"></div>
+          <div><label for="password">密码 <span class="optional">选填</span></label><div class="password-input"><input id="password" name="password" type="password" maxlength="4096" placeholder="可留空" autocomplete="new-password"><button id="toggle-password" type="button" aria-label="显示密码" aria-pressed="false">显示</button></div></div>
+        </div>
+
+        <details id="notes-section"><summary>添加备注 <span class="optional">选填</span><span id="notes-indicator" hidden>已填写</span></summary><label class="sr-only" for="notes">备注</label><textarea id="notes" name="notes" maxlength="5000" rows="2" placeholder="用途、所属项目或负责人"></textarea></details>
+      </fieldset>
+
+      <section id="duplicates" class="duplicate-panel" aria-labelledby="duplicate-heading" hidden>
+        <h2 id="duplicate-heading" tabindex="-1">这个网站和账号已经保存过</h2>
+        <label id="match-label" for="match">选择要更新的记录</label>
+        <select id="match" aria-describedby="match-preview duplicate-hint"></select>
+        <p id="match-preview"></p>
+        <p id="duplicate-hint">空密码和空备注会保留原内容。</p>
+      </section>
+    </main>
+
+    <footer id="actions">
+      <p id="error" class="error" role="alert" hidden></p>
+      <div id="success-panel" class="success-panel" hidden>
+        <p id="success" class="success" role="status" tabindex="-1" hidden></p>
+        <p id="saved-summary"></p>
+        <div class="success-actions"><button id="view-saved" type="button" class="primary">去账号管理查看</button><button id="continue" type="button" class="secondary">再存一个账号</button></div>
+      </div>
+      <div id="duplicate-actions" class="duplicate-actions" hidden><button id="update" type="button" class="primary">更新已有记录</button><button id="create" type="button" class="secondary">另存一条</button></div>
+      <button id="save" type="submit" class="primary save" disabled>正在连接…</button>
+      <p id="action-hint" class="action-hint">账号、密码与备注加密存储 · <span id="shortcut">Ctrl / ⌘ + Enter 保存</span></p>
+    </footer>
+  </form>
+</body>
+</html>

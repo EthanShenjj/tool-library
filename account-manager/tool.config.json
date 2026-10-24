@@ -1,0 +1,9 @@
+{
+  "id": "account-manager",
+  "name": "账号管理",
+  "description": "集中保存各平台的网站地址、账号、密码与备注，快速找到并打开常用平台。",
+  "category": "工作效率",
+  "icon": "key",
+  "status": "ready",
+  "entry": { "type": "internal", "href": "/tools/account-manager" }
+}

@@ -1,0 +1,22 @@
+# Dependencies and build output
+node_modules/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+public/downloads/account-manager-chrome-extension.zip
+
+# Local credentials and deployment metadata
+.env
+.env.*
+!.env.example
+!.env.sample
+.vercel/
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Local machine files
+.DS_Store
+*.log

@@ -1,0 +1,9 @@
+{
+  "name": "image-watermark",
+  "version": "1.0.0",
+  "private": true,
+  "description": "面向电商商品图的离线批量水印编辑器",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  }
+}

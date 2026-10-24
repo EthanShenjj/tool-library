@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="description" content="批量为商品图添加文字和 Logo 水印，图片只在当前设备处理。" />
+    <title>图章 · 批量水印</title>
+    <style>/* __WATERMARK_STYLES__ */</style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand" aria-label="图章批量水印">
+          <span class="brand-mark" aria-hidden="true">图</span>
+          <div><strong>图章</strong><span>商品图批量水印</span></div>
+        </div>
+        <div class="topbar-note"><span class="privacy-dot"></span>图片仅在本机处理</div>
+        <div class="topbar-actions">
+          <button class="button button-quiet reset-button" id="resetButton" type="button">清空重来</button>
+          <button class="button button-quiet" id="exportAllButton" type="button" disabled>
+            <span id="exportAllLabel">全部导出</span>
+          </button>
+          <button class="button button-primary" id="exportButton" type="button" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 15v4h14v-4" /></svg>
+            <span id="exportLabel">导出选中</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="control-panel" aria-label="水印设置">
+          <section class="control-section import-section">
+            <div class="section-heading"><h2>商品图片</h2><span id="imageCount">0 / 20</span></div>
+            <input id="imageInput" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple hidden />
+            <button class="drop-zone" id="addImagesButton" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16.5V19h16v-2.5M12 4v10m0-10 4 4m-4-4L8 8" /></svg>
+              <strong>添加商品图</strong>
+              <span>JPG、PNG、WebP</span>
+            </button>
+            <p class="limit-copy">最多 20 张，总计不超过 100 MB</p>
+          </section>
+
+          <section class="control-section">
+            <label class="switch-row" for="textEnabled">
+              <span><strong>文字水印</strong><small>店铺名、品牌名或版权信息</small></span>
+              <input id="textEnabled" type="checkbox" checked /><i aria-hidden="true"></i>
+            </label>
+            <div class="field-group" id="textControls">
+              <label class="field-label" for="watermarkText">水印文字</label>
+              <input class="text-input" id="watermarkText" maxlength="48" value="我的店铺" autocomplete="off" />
+              <div class="split-fields">
+                <label><span class="field-label">颜色</span><input class="color-input" id="textColor" type="color" value="#ffffff" /></label>
+                <label class="range-field"><span class="range-label"><span>字号</span><output id="textSizeOutput">5%</output></span><input id="textSize" type="range" min="2" max="12" step="0.5" value="5" /></label>
+              </div>
+            </div>
+          </section>
+
+          <section class="control-section">
+            <label class="switch-row" for="logoEnabled">
+              <span><strong>Logo 水印</strong><small>建议使用透明 PNG</small></span>
+              <input id="logoEnabled" type="checkbox" /><i aria-hidden="true"></i>
+            </label>
+            <div class="field-group is-muted" id="logoControls">
+              <input id="logoInput" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
+              <button class="logo-picker" id="logoButton" type="button">
+                <span class="logo-preview" id="logoPreview"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 16l4-4 3 3 2-2 7 6M15.5 9.5h.01" /></svg></span>
+                <span><strong id="logoName">选择 Logo 图片</strong><small>点击替换</small></span>
+              </button>
+              <label class="range-field"><span class="range-label"><span>Logo 宽度</span><output id="logoSizeOutput">18%</output></span><input id="logoSize" type="range" min="5" max="45" step="1" value="18" /></label>
+            </div>
+          </section>
+
+          <section class="control-section">
+            <div class="section-heading"><h2>排列与透明度</h2></div>
+            <span class="field-label">排列方式</span>
+            <div class="arrangement-tabs" id="arrangementTabs" role="radiogroup" aria-label="水印排列方式">
+              <button class="is-selected" type="button" data-arrangement="single" role="radio" aria-checked="true">单个</button>
+              <button type="button" data-arrangement="tile" role="radio" aria-checked="false">平铺</button>
+              <button type="button" data-arrangement="stagger" role="radio" aria-checked="false">错位</button>
+              <button type="button" data-arrangement="random" role="radio" aria-checked="false">随机</button>
+            </div>
+            <div id="singlePlacementControls">
+              <span class="field-label arrangement-label">单个位置</span>
+              <div class="position-grid" id="positionGrid" role="radiogroup" aria-label="水印位置">
+                <button type="button" data-position="top-left" role="radio" aria-label="左上" aria-checked="false"></button>
+                <button type="button" data-position="top-center" role="radio" aria-label="顶部居中" aria-checked="false"></button>
+                <button type="button" data-position="top-right" role="radio" aria-label="右上" aria-checked="false"></button>
+                <button type="button" data-position="center-left" role="radio" aria-label="左侧居中" aria-checked="false"></button>
+                <button type="button" data-position="center" role="radio" aria-label="正中" aria-checked="false"></button>
+                <button type="button" data-position="center-right" role="radio" aria-label="右侧居中" aria-checked="false"></button>
+                <button type="button" data-position="bottom-left" role="radio" aria-label="左下" aria-checked="false"></button>
+                <button type="button" data-position="bottom-center" role="radio" aria-label="底部居中" aria-checked="false"></button>
+                <button class="is-selected" type="button" data-position="bottom-right" role="radio" aria-label="右下" aria-checked="true"></button>
+              </div>
+              <label class="range-field"><span class="range-label"><span>边距</span><output id="marginOutput">4%</output></span><input id="margin" type="range" min="1" max="15" step="1" value="4" /></label>
+            </div>
+            <div class="pattern-controls is-hidden" id="patternControls">
+              <label class="range-field"><span class="range-label"><span>水印数量</span><output id="densityOutput">16 个</output></span><input id="density" type="range" min="4" max="40" step="1" value="16" /></label>
+              <p class="pattern-summary" id="patternSummary">每张图片添加 16 个水印</p>
+            </div>
+            <label class="range-field common-range"><span class="range-label"><span>旋转角度</span><output id="angleOutput">0°</output></span><input id="angle" type="range" min="-60" max="60" step="1" value="0" /></label>
+            <label class="range-field"><span class="range-label"><span>透明度</span><output id="opacityOutput">72%</output></span><input id="opacity" type="range" min="10" max="100" step="1" value="72" /></label>
+          </section>
+        </aside>
+
+        <section class="proof-area" aria-label="图片预览">
+          <div class="proof-toolbar">
+            <div class="proof-file"><span class="proof-kicker">校样预览</span><strong id="selectedName">等待添加图片</strong></div>
+            <div class="proof-tools">
+              <div class="image-navigation" aria-label="切换预览图片">
+                <button class="tool-button" id="previousImageButton" type="button" title="上一张（←）" aria-label="上一张" disabled>‹</button>
+                <span id="previewIndex">0 / 0</span>
+                <button class="tool-button" id="nextImageButton" type="button" title="下一张（→）" aria-label="下一张" disabled>›</button>
+              </div>
+              <span class="proof-size" id="selectedSize">—</span>
+              <div class="zoom-controls" aria-label="预览缩放">
+                <button class="tool-button" id="zoomOutButton" type="button" title="缩小预览" aria-label="缩小预览" disabled>−</button>
+                <output id="zoomOutput">适应</output>
+                <button class="tool-button" id="zoomInButton" type="button" title="放大预览" aria-label="放大预览" disabled>+</button>
+                <button class="view-button is-active" id="fitButton" type="button" title="一键还原为适应窗口" disabled>适应</button>
+                <button class="view-button" id="actualSizeButton" type="button" title="还原原始大小（1:1）" disabled>1:1</button>
+              </div>
+            </div>
+          </div>
+          <div class="canvas-stage" id="dropTarget">
+            <div class="empty-state" id="emptyState">
+              <div class="empty-illustration" aria-hidden="true"><span></span><span></span><span></span></div>
+              <h1>把商品图放到这里</h1>
+              <p>拖入图片，或从左侧添加。所有处理都在当前设备完成。</p>
+              <button class="button button-dark" id="emptyAddButton" type="button">选择商品图片</button>
+            </div>
+            <div class="canvas-wrap" id="canvasWrap" hidden><canvas id="previewCanvas"></canvas><span class="preview-badge">预览</span></div>
+            <div class="drop-overlay" id="dropOverlay">松开即可添加图片</div>
+          </div>
+          <div class="live-message" id="liveMessage" role="status" aria-live="polite"></div>
+        </section>
+
+        <aside class="contact-sheet" aria-label="已导入图片">
+          <div class="contact-heading">
+            <div><h2>批量清单</h2><p>统一应用当前水印设置</p></div>
+            <button class="icon-button" id="addMoreButton" type="button" aria-label="继续添加图片" title="继续添加图片">+</button>
+          </div>
+          <div class="selection-toolbar">
+            <label for="selectAllToggle"><input id="selectAllToggle" type="checkbox" /><span>全选可导出图片</span></label>
+            <span id="selectionCount">已选 0 / 0</span>
+          </div>
+          <div class="image-list" id="imageList">
+            <div class="list-empty" id="listEmpty"><span>还没有图片</span><small>导入后可在这里切换预览和逐张保存</small></div>
+          </div>
+          <div class="batch-summary"><span>本批次大小</span><strong id="batchSize">0 MB</strong></div>
+        </aside>
+      </main>
+
+      <footer class="statusbar">
+        <span><i></i>离线可用</span><span>单张直接保存 · 多张打包 ZIP</span><span>v1.0</span>
+      </footer>
+    </div>
+    <script>/* __JSZIP__ */</script>
+    <script>/* __WATERMARK_APP__ */</script>
+  </body>
+</html>

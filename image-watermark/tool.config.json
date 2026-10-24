@@ -1,0 +1,9 @@
+{
+  "id": "image-watermark",
+  "name": "图章 · 批量水印",
+  "description": "批量为商品图添加文字与 Logo 水印，图片只在本地处理。",
+  "category": "图片编辑",
+  "icon": "image",
+  "status": "beta",
+  "entry": { "type": "internal", "href": "/tools/image-watermark" }
+}

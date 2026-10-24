@@ -1,0 +1,9 @@
+{
+  "id": "google-sheet",
+  "name": "Google Sheet",
+  "description": "连接团队表格，预览数据，并保存字段映射与后续同步规则。",
+  "category": "数据连接",
+  "icon": "sheet",
+  "status": "ready",
+  "entry": { "type": "internal", "href": "/tools/google-sheet" }
+}

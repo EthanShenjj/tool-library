@@ -1,0 +1,53 @@
+[
+  {
+    "directory": "account-manager",
+    "manifest": {
+      "id": "account-manager",
+      "name": "账号管理",
+      "description": "集中保存各平台的网站地址、账号、密码与备注，快速找到并打开常用平台。",
+      "category": "工作效率",
+      "icon": "key",
+      "status": "ready",
+      "entry": {
+        "type": "internal",
+        "href": "/tools/account-manager"
+      }
+    },
+    "package": null
+  },
+  {
+    "directory": "google-sheet",
+    "manifest": {
+      "id": "google-sheet",
+      "name": "Google Sheet",
+      "description": "连接团队表格，预览数据，并保存字段映射与后续同步规则。",
+      "category": "数据连接",
+      "icon": "sheet",
+      "status": "ready",
+      "entry": {
+        "type": "internal",
+        "href": "/tools/google-sheet"
+      }
+    },
+    "package": null
+  },
+  {
+    "directory": "image-watermark",
+    "manifest": {
+      "id": "image-watermark",
+      "name": "图章 · 批量水印",
+      "description": "批量为商品图添加文字与 Logo 水印，图片只在本地处理。",
+      "category": "图片编辑",
+      "icon": "image",
+      "status": "beta",
+      "entry": {
+        "type": "internal",
+        "href": "/tools/image-watermark"
+      }
+    },
+    "package": {
+      "name": "image-watermark",
+      "description": "面向电商商品图的离线批量水印编辑器"
+    }
+  }
+]

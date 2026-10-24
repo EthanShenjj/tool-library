@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "账号管理 · 快速保存",
+  "version": "1.2.0",
+  "description": "自动带入当前网页 URL，将平台、账号、密码与备注保存到团队工具台。",
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": ["https://team-toolbox.vercel.app/*"],
+  "background": { "service_worker": "service-worker.js" },
+  "action": {
+    "default_title": "保存到账号管理",
+    "default_popup": "popup.html",
+    "default_icon": { "16": "icons/key-16.png", "32": "icons/key-32.png" }
+  },
+  "icons": { "16": "icons/key-16.png", "48": "icons/key-48.png", "128": "icons/key-128.png" },
+  "content_scripts": [{
+    "matches": ["https://team-toolbox.vercel.app/tools/account-manager*"],
+    "js": ["platforms.js", "shared.js", "bridge.js"],
+    "run_at": "document_idle",
+    "world": "ISOLATED"
+  }],
+  "content_security_policy": { "extension_pages": "script-src 'self'; object-src 'none'" }
+}
