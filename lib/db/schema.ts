@@ -1,6 +1,7 @@
 import {
   boolean,
   index,
+  integer,
   jsonb,
   pgTable,
   text,
@@ -55,3 +56,20 @@ export const platformAccounts = pgTable("platform_accounts", {
 }, (table) => [index("platform_accounts_updated_at_idx").on(table.updatedAt.desc())]);
 
 export type PlatformAccount = typeof platformAccounts.$inferSelect;
+
+export const savedSkills = pgTable("saved_skills", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
+  description: text("description").notNull().default(""),
+  tags: jsonb("tags").$type<string[]>().notNull().default([]),
+  notes: text("notes").notNull().default(""),
+  favorite: boolean("favorite").notNull().default(false),
+  sourceName: text("source_name").notNull(),
+  content: text("content").notNull(),
+  files: jsonb("files").$type<{ path: string; size: number }[]>().notNull(),
+  totalBytes: integer("total_bytes").notNull(),
+  archiveName: text("archive_name").notNull(),
+  archiveBase64: text("archive_base64").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, (table) => [index("saved_skills_updated_at_idx").on(table.updatedAt.desc())]);

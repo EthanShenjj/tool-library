@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowUpRight, Box, ImageIcon, KeyRound, Search, Sheet, Wrench } from "lucide-react";
+import { ArrowUpRight, Box, ImageIcon, KeyRound, Library, Search, Sheet, Wrench } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import type { DiscoveredTool } from "@/lib/tools/schema";
 import { cn } from "@/lib/utils";
 
-const iconMap = { sheet: Sheet, box: Box, wrench: Wrench, image: ImageIcon, key: KeyRound };
+const iconMap = { sheet: Sheet, box: Box, wrench: Wrench, image: ImageIcon, key: KeyRound, library: Library };
 const statusMap = {
   ready: { label: "可用", variant: "green" as const },
   beta: { label: "测试中", variant: "blue" as const },

@@ -3,6 +3,7 @@ node_modules/
 .next/
 out/
 coverage/
+.data/
 *.tsbuildinfo
 public/downloads/account-manager-chrome-extension.zip
 

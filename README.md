@@ -14,6 +14,12 @@
 
 ## 本地启动
 
+Skill Hub 位于 `/tools/skill-hub`，用于上传和沉淀常用 Skill。支持单个 `SKILL.md`、完整技能文件夹或 ZIP，自动解析 YAML 名称、说明和标签；可搜索、按标签筛选、收藏、编辑说明与备注、复制 `SKILL.md`、下载完整 ZIP 和删除。详情中的「更新技能包」可替换原始文件，同时保留已整理的信息。
+
+本地运行时不需要配置数据库，即可上传和管理 Skill：未设置 `DATABASE_URL` 时自动使用项目中的 `.data/skill-hub.sqlite` 保存，刷新页面、重启服务后数据仍保留（需要 Node.js 22.16 或更新版本）。`.data/` 已排除在 Git 之外，备份时请保留该文件。
+
+配置 `DATABASE_URL` 后沿用 PostgreSQL 数据库，需执行 `npm run db:migrate` 创建 `saved_skills` 表；本地 SQLite 和 PostgreSQL 是两个独立技能库，不自动迁移。Vercel 部署使用 PostgreSQL，由可访问工具台的成员共享。上传及解压后均限制为 3 MB、200 个文件，`SKILL.md` 最大 256 KB。下载包保留脚本、附件、参考文件和可执行权限；上传时忽略 `.git`、`node_modules`、`.venv` 和 macOS 元数据。Skill Hub 只管理文件，不执行技能脚本。
+
 ```bash
 npm install
 cp .env.example .env.local

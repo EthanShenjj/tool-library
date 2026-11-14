@@ -49,5 +49,21 @@
       "name": "image-watermark",
       "description": "面向电商商品图的离线批量水印编辑器"
     }
+  },
+  {
+    "directory": "skill-hub",
+    "manifest": {
+      "id": "skill-hub",
+      "name": "Skill Hub",
+      "description": "上传和沉淀常用 Skill，按标签整理、收藏，随时查看说明并下载完整技能包。",
+      "category": "工作效率",
+      "icon": "library",
+      "status": "ready",
+      "entry": {
+        "type": "internal",
+        "href": "/tools/skill-hub"
+      }
+    },
+    "package": null
   }
 ]
